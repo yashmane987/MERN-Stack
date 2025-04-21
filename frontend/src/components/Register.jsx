@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const [form, setForm] = useState({ name: "", email: "", password: "", role: "Employee" });
-
+  const navigate = useNavigate();
   const register = async () => {
     await axios.post("http://localhost:5000/register", form);
     alert("User registered!");
+    navigate("/");
   };
 
   return (

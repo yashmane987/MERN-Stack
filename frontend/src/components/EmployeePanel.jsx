@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function EmployeePanel() {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState("");
   const [customerName, setCustomerName] = useState("");
+  const navigate = useNavigate();
 
+  const logout = () => {
+    localStorage.removeItem("token");
+
+    navigate("/");
+  }
   useEffect(() => {
     const fetchProducts = async () => {
       const res = await axios.get("http://localhost:5000/products", {
@@ -36,7 +43,10 @@ function EmployeePanel() {
           <option key={p._id} value={p._id}>{p.name}</option>
         ))}
       </select>
-      <button className="btn btn-primary" onClick={placeOrder}>Place Order</button>
+      <button className="btn btn-primary me-2" onClick={placeOrder}>Place Order</button>
+      <button className="btn btn-warning" onClick={logout}>
+        Logout
+      </button>
     </div>
   );
 }

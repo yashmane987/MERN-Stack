@@ -115,11 +115,13 @@ app.post("/orders", auth, async (req, res) => {
 
 app.get("/orders", auth, async (req, res) => {
   if (req.user.role === "Manager") {
-    const teamMembers = await User.find({ manager: req.user._id });
-    const orders = await Order.find({ employee: { $in: teamMembers.map(u => u._id) } }).populate("product").populate("employee");
-    res.json(orders);
+    const orders = await Order.find()
+      .populate("product")
+      .populate("employee");
+
+    res.json({ success: true, orders });
   } else {
-    res.sendStatus(403);
+    res.sendStatus(403); 
   }
 });
 
